@@ -30,11 +30,11 @@
             sed -i -e "s/^\(DB_PASSWORD=.*\)/#\1/" ${env}
             touch /var/www/laravel/database/database.sqlite
         else
-            sed -i -e "s/^\(DB_HOST=\).*$/\1${DB_HOST}/" ${env}
-            sed -i -e "s/^\(DB_PORT=\).*$/\1${DB_PORT}/" ${env}
-            sed -i -e "s/^\(DB_DATABASE=\).*$/\1${DB_DATABASE}/" ${env}
-            sed -i -e "s/^\(DB_USERNAME=\).*$/\1${DB_USERNAME}/" ${env}
-            sed -i -e "s/^\(DB_PASSWORD=\).*$/\1${DB_PASSWORD}/" ${env}
+            sed -i -e "s/^\(DB_HOST=\).*$/\1${DB_HOST:=mariadb}/" ${env}
+            sed -i -e "s/^\(DB_PORT=\).*$/\1${DB_PORT:=3306}/" ${env}
+            sed -i -e "s/^\(DB_DATABASE=\).*$/\1${DB_DATABASE:=laradb}/" ${env}
+            sed -i -e "s/^\(DB_USERNAME=\).*$/\1${DB_USERNAME:=lara}/" ${env}
+            sed -i -e "s/^\(DB_PASSWORD=\).*$/\1${DB_PASSWORD:=password}/" ${env}
         fi
         chown -R www-data:www-data /var/www/laravel
         php /var/www/laravel/artisan migrate
