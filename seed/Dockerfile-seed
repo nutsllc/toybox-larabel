@@ -1,0 +1,14 @@
+FROM nutsllc/toybox-php:{{PHP_VERSION}}-apache
+
+ENV LARAVEL_VERSION={{LARAVEL_VERSION}} \
+    DOCUMENT_ROOT=/var/www/laravel/public
+
+RUN cd ${HOME} \
+    && composer create-project --prefer-dist "laravel/laravel=${LARAVEL_VERSION}" ${HOME}/laravel \
+    && tar czf laravel.tar.gz laravel/ \
+    && rm -r laravel/
+
+COPY docker-entrypoint.sh /entrypoint-laravel.sh
+
+ENTRYPOINT ["/entrypoint-php.sh"]
+CMD ["/entrypoint-laravel.sh","apache2-foreground"]
