@@ -4,90 +4,79 @@ This is a set of the Dockerfile for running several versions of the Laravel PHP 
 
 If you would like to have Nginx with PHP-FPM environment to run Laravel, visit [Toybox Laravel Data](https://github.com/nutsllc/toybox-laravel-data) repository. (Dockerhub: [nutsllc/toybox-laravel-data](https://hub.docker.com/r/nutsllc/toybox-laravel-data/))
 
-## Running Laravel
-
-Toybox Laravel is not conpatible with SQLite yet. So, you have to run this container with the database container.
-
-## Running Laravel with MariaDB (MySQL)
-
-(1) You need to run the database container first.
+## Running Laravel container
 
 ```bash
-docker run --name mariadb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=laravel_db -e MYSQL_USER=laravel -e MYSQL_PASSWORD=password -itd nutsllc/toybox-mariadb
+version: '2'
+services:
+    laravel:
+        image: nutsllc/toybox-laravel:5.3-php7.0-apache
+        environment:
+            - ALL_PHP_MODULES=enable
+            - DB_CONNECTION=sqlite
+        volumes:
+            - "./data/laravel:/var/www/laravel"
+        ports:
+            - 8080:80
 ```
 
-This example of the docker run command performs:
+### Image tags
 
-* running MariaDB container
-* create database named ``laravel_db``
-* create user named ``laravel`` to connect database
-* create user password with the value of ``password`` 
+* ``5.3-php5.6-apache`` for Laravel5.3 on Apache2 with PHP5.6
+* ``5.3-php7.0-apache`` for Laravel5.3 on Apache2 with PHP7.0
+* ``5.2-php5.6-apache`` for Laravel5.2 on Apache2 with PHP5.6
+* ``5.2-php7.0-apache`` for Laravel5.2 on Apache2 with PHP7.0
+* ``5.1-php5.6-apache`` for Laravel5.1 on Apache2 with PHP5.6
+* ``5.1-php7.0-apache`` for Laravel5.1 on Apache2 with PHP7.0
 
-(2) Run the Laravel container with ``--link`` option to connect a database container and you minimully need ``-e PDO_MYSQL=enable`` to enable PHP-MYSQL module for PHP.
+### Environment variables
 
-note: we recomand using ``-e ALL_PHP_MODULES=enable`` option insted of ``-e PDO_MYSQL=enable``.
+* ``ALL_PHP_MODULES=enable`` for loading all PHP modules
+* ``DB_CONNECTION=sqlite`` for using SQLite database
 
-more detail: see "Adding PHP Extensions" section below.
-
-Additionally, you must also need to apply several environment values below.
-
-* ``-e DB_HOST`` for name of the database container
-* ``-e DB_DATABASE`` for database name to store laravel data
-* ``-e DB_USERNAME`` for userneme to connect database
-* ``-e DB_PASSWORD`` for user password to connect database
-
-Example: 
-
-**For Laravel 5.3 on Apache2 with PHP 5.6**
+## Running Laravel container with MariaDB (MySQL)
 
 ```bash
-docker run -p 8080:80 --link mariadb -e ALL_PHP_MODULES=enable -e DB_HOST=mariadb -e DB_DATABASE=laravel_db -e DB_USERNAME=laravel -e DB_PASSWORD=password -itd nutsllc/toybox-laravel:5.3-php5.6-apache
+version: '2'
+services:
+    laravel:
+        image: nutsllc/toybox-laravel:5.3-php7.0-apache
+        environment:
+            - ALL_PHP_MODULES=enable
+        volumes:
+            - "./data/laravel:/var/www/laravel"
+        ports:
+            - 8080:80
+ 
+    mariadb:
+        image: nutsllc/toybox-mariadb
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=laradb
+            - MYSQL_USER=lara
+            - MYSQL_PASSWORD=password
+        volumes:
+            - "./data/mysql:/var/lib/mysql"
 ```
 
-**For Laravel 5.3 on Apache2 with PHP 7.0**
+### Environment Variables
 
-```bash
-docker run -p 8080:80 --link mariadb -e ALL_PHP_MODULES=enable -e DB_HOST=mariadb -e DB_DATABASE=laravel_db -e DB_USERNAME=laravel -e DB_PASSWORD=password -itd nutsllc/toybox-laravel:5.3-php7.0-apache
-```
-
-**For Laravel 5.2 on Apache2 with PHP 5.6**
-
-```bash
-docker run -p 8080:80 --link mariadb -e ALL_PHP_MODULES=enable -e DB_HOST=mariadb -e DB_DATABASE=laravel_db -e DB_USERNAME=laravel -e DB_PASSWORD=password -itd nutsllc/toybox-laravel:5.2-php5.6-apache
-```
-
-**For Laravel 5.2 on Apache2 with PHP 7.0**
-
-```bash
-docker run -p 8080:80 --link mariadb -e ALL_PHP_MODULES=enable -e DB_HOST=mariadb -e DB_DATABASE=laravel_db -e DB_USERNAME=laravel -e DB_PASSWORD=password -itd nutsllc/toybox-laravel:5.2-php7.0-apache
-```
-
-**For Laravel 5.1 on Apache2 with PHP 5.6**
-
-```bash
-docker run -p 8080:80 --link mariadb -e ALL_PHP_MODULES=enable -e DB_HOST=mariadb -e DB_DATABASE=laravel_db -e DB_USERNAME=laravel -e DB_PASSWORD=password -itd nutsllc/toybox-laravel:5.1-php5.6-apache
-```
-
-**For Laravel 5.1 on Apache2 with PHP 7.0**
-
-```bash
-docker run -p 8080:80 --link mariadb -e ALL_PHP_MODULES=enable -e DB_HOST=mariadb -e DB_DATABASE=laravel_db -e DB_USERNAME=laravel -e DB_PASSWORD=password -itd nutsllc/toybox-laravel:5.1-php7.0-apache
-```
+* ``MYSQL_DATABASE=laradb`` for creating database named laradb
+* ``MYSQL_USER=lara`` for creating user of the laradb database
+* ``MYSQL_PASSWORD=password`` for setting password for user:lara
 
 ## Change configuration values of the Laravel
 
-If you use database container like MariaDB, you must set ``-e DB_CONNECTION`` with value of ``mysql``, ``-e DB_HOST``, ``-e DB_DATABASE``, ``-e DB_USERNAME`` and ``-e DB_PASSWORD``
-
-||Default value|Description|
+|Environment variavle|Default value|Description|
 |:---|:---|:---|
-|``-e DB_CONNECTION``|mysql|Database that is used by Laravel|
-|``-e DB_HOST``|127.0.0.1|IP address or host name of the database|
-|``-e DB_PORT``|3306|Listening port number of the database|
-|``-e DB_DATABASE``|homestead|Database name for Laravel|
-|``-e DB_USERNAME``|homestead|Database user for Laravel|
-|``-e DB_PASSWORD``|secret|Database password for Laravel|
-|``-e LARAVEL_TZ``|UTC|Timezone for Laravel|
-|``-e LARAVEL_LOCALE``|en|locale for Laravel|
+|``DB_CONNECTION``|mysql|Database that is used by Laravel|
+|``DB_HOST``|mariadb|IP address or host name of the database|
+|``DB_PORT``|3306|Listening port number of the database|
+|``DB_DATABASE``|laradb|Database name to store laravel data|
+|``DB_USERNAME``|lara|User name to connect to database|
+|``DB_PASSWORD``|password|Database password for Laravel|
+|``LARAVEL_TZ``|UTC|Timezone for Laravel|
+|``LARAVEL_LOCALE``|en|locale for Laravel|
 
 ## Adding PHP extensions
 
