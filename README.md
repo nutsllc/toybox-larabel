@@ -1,10 +1,12 @@
 # Toybox Laravel (v5.1, v5.2 and v5.3 with Apache2)
 
-This is a set of the Dockerfile for running several versions of the Laravel PHP Framework.
+This is a Dockerfile for running several versions of the Laravel PHP Framework.
 
-If you would like to have Nginx with PHP-FPM environment to run Laravel, visit [Toybox Laravel Data](https://github.com/nutsllc/toybox-laravel-data) repository. (Dockerhub: [nutsllc/toybox-laravel-data](https://hub.docker.com/r/nutsllc/toybox-laravel-data/))
+If you would like to have Nginx with PHP-FPM environment to run Laravel, visit [Toybox Laravel Data](https://github.com/nutsllc/toybox-laravel-data) repository.
 
 ## Running Laravel container
+
+``docker-compose.yml`` example below.
 
 ```bash
 version: '2'
@@ -36,6 +38,8 @@ services:
 
 ## Running Laravel container with MariaDB (MySQL)
 
+``docker-compose.yml`` example below.
+
 ```bash
 version: '2'
 services:
@@ -61,6 +65,8 @@ services:
 
 ### Environment Variables
 
+* ``ALL_PHP_MODULES=enable`` for loading all PHP modules
+* ``MYSQL_ROOT_PASSWORD=password`` for setting root password
 * ``MYSQL_DATABASE=laradb`` for creating database named laradb
 * ``MYSQL_USER=lara`` for creating user of the laradb database
 * ``MYSQL_PASSWORD=password`` for setting password for user:lara
@@ -78,13 +84,13 @@ services:
 |``LARAVEL_TZ``|UTC|Timezone for Laravel|
 |``LARAVEL_LOCALE``|en|locale for Laravel|
 
-## Adding PHP extensions
+## Enabling PHP extensions
 
-PHP extensions can be added by environment variables with ``enable`` value.
+PHP extensions can be enabled by environment variables with ``enable`` value.
 
 For example:
 
-``docker run -it -p 8080:80 -e GD=enable -e MEMCACHED=enable -e APCU=enable -e OPCACHE=enable -e XDEBUG=true -d nutsllc/toybox-aravel:5.3-php7.0-apache``
+``docker run -itd -p 8080:80 -e GD=enable -e MEMCACHED=enable -e APCU=enable -e OPCACHE=enable -e XDEBUG=true -d nutsllc/toybox-aravel:5.3-php7.0-apache``
 
 ### List of the PHP extensions that you can enable to container
 
@@ -113,7 +119,7 @@ Parameter values in php.ini can be changed by environment variables with new val
 
 For example:
 
-``docker run -it -p 8080:80 -e MEMORY_LIMIT=64M -e POST_MAX_SIZE=32M -e UPLOAD_MAX_FILESIZE=8M -d nutsllc/toybox-php:7.0.8-apache``
+``docker run -itd -p 8080:80 -e MEMORY_LIMIT=64M -e POST_MAX_SIZE=32M -e UPLOAD_MAX_FILESIZE=8M -d nutsllc/toybox-laravel:5.3-php7.0-apache``
 
 ### List of the php.ini paramaters that you can change
 
