@@ -4,6 +4,12 @@ This is a Dockerfile for running several versions of the Laravel PHP Framework.
 
 If you would like to have Nginx with PHP-FPM environment to run Laravel, visit [Toybox Laravel Data](https://github.com/nutsllc/toybox-laravel-data) repository.
 
+## Contents
+
+* [composer](https://getcomposer.org/)
+* [node.js](https://nodejs.org/en/)
+* [gulp](http://gulpjs.com/) (global install)
+
 ## Running Laravel container with SQLite
 
 This is the simplest way to run Laravel container.
