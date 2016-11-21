@@ -20,5 +20,6 @@ RUN cd ${HOME} \
 
 COPY docker-entrypoint.sh /entrypoint-laravel.sh
 
+WORKDIR ${DOCUMENT_ROOT}
 ENTRYPOINT ["/entrypoint-php.sh"]
 CMD ["/entrypoint-laravel.sh","apache2-foreground"]
