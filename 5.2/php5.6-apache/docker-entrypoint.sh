@@ -14,14 +14,15 @@
     sed -i -e "s:^\(.*DocumentRoot \)/var/www/html$:\1${DOCUMENT_ROOT}:" ${site_confdir}/000-default.conf
     sed -i -e "s:^\(.*DocumentRoot \)/var/www/html$:\1${DOCUMENT_ROOT}:" ${site_confdir}/default-ssl.conf
 
-    cd /var/www
-    tar xzf ${HOME}/laravel.tar.gz && {
+    [ ! -f /var/www/laravel/.env ] && {
+        cd /var/www
+        tar xzf ${HOME}/laravel.tar.gz 
         env=/var/www/laravel/.env
         config_app=/var/www/laravel/config/app.php
         sed -i -e "s/^\(DB_CONNECTION=\).*$/\1${DB_CONNECTION}/" ${env}
         sed -i -e "s:^\(.*'timezone' => \)'UTC',$:\1'${LARAVEL_TZ}',:" ${config_app}
         sed -i -e "s/^\(.*'locale' => \)'en',$/\1'${LARAVEL_LOCALE}',/" ${config_app}
-
+    
         if [ "${DB_CONNECTION}" = "sqlite" ]; then
             sed -i -e "s/^\(DB_HOST=.*\)/#\1/" ${env}
             sed -i -e "s/^\(DB_PORT=.*\)/#\1/" ${env}
@@ -38,6 +39,9 @@
         fi
         chown -R www-data:www-data /var/www/laravel
         php /var/www/laravel/artisan migrate
+    }
+
+    [ -f ${HOME}/laravel.tar.gz ] && {
         rm ${HOME}/laravel.tar.gz
     }
 }
