@@ -45,12 +45,12 @@ env=${LARAVEL_ROOT}/.env
     }
 
     # Mail settings
-    [ -n "${MAIL_DRIVER}" ] && sed -i -e "s/^\(MAIL_DRIVER=\)smtp$/\1${MAIL_DRIVER}/" ${env}
-    [ -n "${MAIL_HOST}" ] && sed -i -e "s/^\(MAIL_HOST=\)mailtrap.io$/\1${MAIL_DRIVER}/" ${env}
-    [ -n "${MAIL_PORT}" ] && sed -i -e "s/^\(MAIL_PORT=\)2525$/\1${MAIL_DRIVER}/" ${env}
-    [ -n "${MAIL_USERNAME}" ] && sed -i -e "s/^\(MAIL_USERNAME=\)null$/\1${MAIL_DRIVER}/" ${env}
-    [ -n "${MAIL_PASSWORD}" ] && sed -i -e "s/^\(MAIL_PASSWORD=\)null$/\1${MAIL_DRIVER}/" ${env}
-    [ -n "${MAIL_ENCRYPTION}" ] && sed -i -e "s/^\(MAIL_ENCRYPTION=\)null$/\1${MAIL_DRIVER}/" ${env}
+    [ -n "${MAIL_DRIVER}" ] && sed -i -e "s/^\(MAIL_DRIVER=\).*$/\1${MAIL_DRIVER}/" ${env}
+    [ -n "${MAIL_HOST}" ] && sed -i -e "s/^\(MAIL_HOST=\).*$/\1${MAIL_DRIVER}/" ${env}
+    [ -n "${MAIL_PORT}" ] && sed -i -e "s/^\(MAIL_PORT=\).*$/\1${MAIL_DRIVER}/" ${env}
+    [ -n "${MAIL_USERNAME}" ] && sed -i -e "s/^\(MAIL_USERNAME=\).*$/\1${MAIL_DRIVER}/" ${env}
+    [ -n "${MAIL_PASSWORD}" ] && sed -i -e "s/^\(MAIL_PASSWORD=\).*$/\1${MAIL_DRIVER}/" ${env}
+    [ -n "${MAIL_ENCRYPTION}" ] && sed -i -e "s/^\(MAIL_ENCRYPTION=\).*$/\1${MAIL_DRIVER}/" ${env}
 }
 
 chown -R www-data:www-data ${LARAVEL_ROOT}
