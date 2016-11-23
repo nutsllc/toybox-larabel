@@ -152,7 +152,7 @@ These enviroment value will reflect 'php.ini' file.
 |MEMORY_LIMIT|32M|
 |POST_MAX_SIZE|16M|
 |UPLOAD_MAX_FILESIZE|8M|
-|ERROR_REPORTING|E_ALL|E_STRICT|
+|ERROR_REPORTING|E_ALL\|E_STRICT|
 |DISPLAY_ERRORS|Off|
 |LOG_ERRORS|On|
 |ERROR_LOG|/var/log/php_error.log|
