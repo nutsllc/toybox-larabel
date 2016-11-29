@@ -1,7 +1,8 @@
 #!/bin/bash
+set -e
 
-: ${DOCUMENT_ROOT:=/var/www/laravel/public}
-${LARAVEL_ROOT}=${DOCUMENT_ROOT}/../
+LARAVEL_ROOT=/var/www/laravel
+${DOCUMENT_ROOT}=${LARAVEL_ROOT}/public
 : ${LARAVEL_TZ:=UTC}
 : ${LARAVEL_LOCALE:=en}
 
