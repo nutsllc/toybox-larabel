@@ -11,12 +11,24 @@ dirs=(
     "${dist}/5.2/php7.0-apache"
     "${dist}/5.3/php5.6-apache"
     "${dist}/5.3/php7.0-apache"
+    "${dist}/5.4/php5.6-apache"
+    "${dist}/5.4/php7.0-apache"
+    "${dist}/5.5/php5.6-apache"
+    "${dist}/5.5/php7.0-apache"
+    "${dist}/5.6/php5.6-apache"
+    "${dist}/5.6/php7.0-apache"
+    "${dist}/5.7/php5.6-apache"
+    "${dist}/5.7/php7.0-apache"
 )
 
 dirs_data=(
     "${dist}/5.1/data-container"
     "${dist}/5.2/data-container"
     "${dist}/5.3/data-container"
+    "${dist}/5.4/data-container"
+    "${dist}/5.5/data-container"
+    "${dist}/5.6/data-container"
+    "${dist}/5.7/data-container"
 )
 
 for d in ${dirs[@]}; do

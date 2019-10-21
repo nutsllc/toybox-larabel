@@ -2,7 +2,7 @@
 set -e
 
 LARAVEL_ROOT=/var/www/laravel
-${DOCUMENT_ROOT}=${LARAVEL_ROOT}/public
+#${DOCUMENT_ROOT}=${LARAVEL_ROOT}/public
 : ${LARAVEL_TZ:=UTC}
 : ${LARAVEL_LOCALE:=en}
 
@@ -13,7 +13,7 @@ sed -i -e "s:^\(.*DocumentRoot \)/var/www/html$:\1${DOCUMENT_ROOT}:" ${site_conf
 
 [ -f ${HOME}/laravel.tar.gz ] && {
     cd ${LARAVEL_ROOT}/../
-    tar xzf ${HOME}/laravel.tar.gz 
+    tar xzf ${HOME}/laravel.tar.gz
     rm ${HOME}/laravel.tar.gz
 }
 
